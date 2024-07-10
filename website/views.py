@@ -22,7 +22,7 @@ def home(request):
             messages.error(request, "Usuário ou senha inválidos.")
             return redirect('crm:home')
     else:
-        return render(request, 'home.html', {'records':records})
+        return render(request, 'website/pages/home.html', {'records':records})
 
 
 
@@ -46,16 +46,16 @@ def register_user(request):
             return redirect('crm:home')
     else:
         form = SignUpForm()
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'website/pages/register.html', {'form': form})
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'website/pages/register.html', {'form': form})
 
 
 def customer_records(request, pk):
     if request.user.is_authenticated:
         # Look up record
         customer_record = Record.objects.get(id=pk)
-        return render(request, 'record.html', {'customer_record': customer_record})
+        return render(request, 'website/pages/record.html', {'customer_record': customer_record})
     else:
         messages.success(request, "Você deve estar logado para visualizar esta página.")
         return redirect('crm:home')
@@ -80,7 +80,7 @@ def add_record(request):
                 add_record = form.save()
                 messages.success(request, "Registro salvo com sucesso.")
                 return redirect('crm:home')
-        return render(request, 'add_record.html', {'form': form})
+        return render(request, 'website/pages/add_record.html', {'form': form})
     else:
         messages.success(request, "Você deve estar logado para realizar essa ação.")
         return redirect('crm:home')
@@ -94,7 +94,7 @@ def update_record(request, pk):
             form.save()
             messages.success(request, "Registro editado com sucesso.")
             return redirect('crm:home')
-        return render(request, 'update_record.html', {'form': form})
+        return render(request, 'website/pages/update_record.html', {'form': form})
     else:
         messages.success(request, "Você deve estar logado para realizar essa ação.")
         return redirect('crm:home')
