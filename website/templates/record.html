@@ -17,8 +17,8 @@
         </div>
     </div>
     <br>
-    <a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
-    <a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger">Apagar</a>
-    <a href="{% url 'update_record' customer_record.id %}" class="btn btn-success">Editar</a>
+    <a href="{% url 'crm:home' %}" class="btn btn-secondary">Voltar</a>
+    <a href="{% url 'crm:delete_record' customer_record.id %}" class="btn btn-danger">Apagar</a>
+    <a href="{% url 'crm:update_record' customer_record.id %}" class="btn btn-success">Editar</a>
 
 {% endblock %}

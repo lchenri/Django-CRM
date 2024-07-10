@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Django CRM</a>
+        <a class="navbar-brand" href="{% url 'crm:home' %}">Django CRM</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,17 +8,17 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'add_record' %}">Adicionar registro</a>
+                        <a class="nav-link" href="{% url 'crm:add_record' %}">Adicionar registro</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+                        <a class="nav-link" href="{% url 'crm:logout' %}">Sair</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Cadastro</a>
+                        <a class="nav-link" href="{% url 'crm:register' %}">Cadastro</a>
                     </li>                    
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Login</a>
+                        <a class="nav-link" href="{% url 'crm:home' %}">Login</a>
                     </li>
                 {% endif %}
 

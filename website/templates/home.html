@@ -27,7 +27,7 @@
                         <td>{{ record.state }}</td>
                         <td>{{ record.zipcode }}</td>
                         <td>{{ record.created_at }}</td>
-                        <td><a href={% url 'record' record.id %}>{{ record.id }}</a></td>
+                        <td><a href={% url 'crm:record' record.id %}>{{ record.id }}</a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
@@ -38,7 +38,7 @@
         <div class="col-md-6 offset-md-3">
             <h1>Login</h1>
             <br>
-            <form method="post" action="{% url 'home' %}">
+            <form method="post" action="{% url 'crm:home' %}">
                 {% csrf_token %}
                     <div class="mb-3">
                         <input type="text" class="form-control" name="username" placeholder="Usuário" required>

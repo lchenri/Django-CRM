@@ -17,10 +17,10 @@ def home(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Logado com sucesso!.")
-            return redirect('home')
+            return redirect('crm:home')
         else:
             messages.error(request, "Usuário ou senha inválidos.")
-            return redirect('home')
+            return redirect('crm:home')
     else:
         return render(request, 'home.html', {'records':records})
 
@@ -29,7 +29,7 @@ def home(request):
 def logout_user(request):
     logout(request)
     messages.success(request, "Você saiu.")
-    return redirect('home')
+    return redirect('crm:home')
 
 
 def register_user(request):
@@ -43,7 +43,7 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, "Você foi cadastrado com sucesso.")
-            return redirect('home')
+            return redirect('crm:home')
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form': form})
@@ -58,7 +58,7 @@ def customer_records(request, pk):
         return render(request, 'record.html', {'customer_record': customer_record})
     else:
         messages.success(request, "Você deve estar logado para visualizar esta página.")
-        return redirect('home')
+        return redirect('crm:home')
 
 
 def delete_record(request, pk):
@@ -66,10 +66,10 @@ def delete_record(request, pk):
         delete_it = Record.objects.get(id=pk)
         delete_it.delete()
         messages.success(request, "Registro deletado com sucesso.")
-        return redirect('home')
+        return redirect('crm:home')
     else:
         messages.success(request, "Você deve estar logado para realizar essa ação.")
-        return redirect('home')
+        return redirect('crm:home')
 
 
 def add_record(request):
@@ -79,11 +79,11 @@ def add_record(request):
             if form.is_valid():
                 add_record = form.save()
                 messages.success(request, "Registro salvo com sucesso.")
-                return redirect('home')
+                return redirect('crm:home')
         return render(request, 'add_record.html', {'form': form})
     else:
         messages.success(request, "Você deve estar logado para realizar essa ação.")
-        return redirect('home')
+        return redirect('crm:home')
 
 
 def update_record(request, pk):
@@ -93,8 +93,8 @@ def update_record(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Registro editado com sucesso.")
-            return redirect('home')
+            return redirect('crm:home')
         return render(request, 'update_record.html', {'form': form})
     else:
         messages.success(request, "Você deve estar logado para realizar essa ação.")
-        return redirect('home')
+        return redirect('crm:home')
