@@ -4,8 +4,6 @@ from django.contrib import messages
 from .forms import SignUpForm, AddRecordForm
 from .models import Record
 
-# Create your views here.
-
 
 def home(request):
     records = Record.objects.all()
@@ -36,7 +34,6 @@ def register_user(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            # Authenticate and login
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
@@ -52,7 +49,6 @@ def register_user(request):
 
 def customer_records(request, pk):
     if request.user.is_authenticated:
-        # Look up record
         customer_record = Record.objects.get(id=pk)
         return render(request, 'website/pages/record.html', {'customer_record': customer_record})
     else:

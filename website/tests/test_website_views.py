@@ -106,7 +106,6 @@ class CRMViewsTest(TestCase, RecordModelBase):
         self.assertRedirects(response, reverse('crm:home'))
 
     def test_record_register_user_views_if_form_is_not_valid(self):
-        self.client = Client()
         form_data_sign_up_form = {}
         response = self.client.post(reverse('crm:register'), form_data_sign_up_form)
         self.assertTemplateUsed(response, 'website/pages/register.html')
@@ -130,7 +129,6 @@ class CRMViewsTest(TestCase, RecordModelBase):
         self.assertIs(customer_records_view_url.func, views.customer_records)
 
     def test_record_customer_views_if_request_user_is_authenticated(self):
-        self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='208030Pl@')
         self.client.login(username='testuser', password='208030Pl@')
         response = self.client.get(reverse('crm:record', kwargs={'pk': self.record_maker().id}))
@@ -139,8 +137,6 @@ class CRMViewsTest(TestCase, RecordModelBase):
         self.assertContains(response, 'João Ternário')
 
     def test_record_customer_views_if_request_user_is_not_authenticated(self):
-        self.client = Client()
-
         response = self.client.get(reverse('crm:record', kwargs={'pk': self.record_maker().id}))
 
         messages = list(get_messages(response.wsgi_request))
