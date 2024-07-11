@@ -25,7 +25,6 @@ def home(request):
         return render(request, 'website/pages/home.html', {'records':records})
 
 
-
 def logout_user(request):
     logout(request)
     messages.success(request, "Você saiu.")
