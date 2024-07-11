@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from .record_model_base import RecordModelBase
 from django.contrib.auth.models import User
-from ..forms import SignUpForm, AddRecordForm
+from ..forms import AddRecordForm
 from website import views
 from django.contrib.messages import get_messages
 
@@ -21,6 +21,7 @@ def form_data_add_record():
         'zipcode': '33000200'
     }
     return form_data_add_record_form
+
 
 def form_data_add_record_edit():
     form_data_add_record_form = {
@@ -92,9 +93,9 @@ class CRMViewsTest(TestCase, RecordModelBase):
             'password1': '208030Pl@',
             'password2': '208030Pl@'
         }
-        #form = SignUpForm(form_data_sign_up_form)
-        #form.full_clean()
-        #form.save()
+        # form = SignUpForm(form_data_sign_up_form)
+        # form.full_clean()
+        # form.save()
 
         response = self.client.post(reverse('crm:register'), form_data_sign_up_form)
         self.assertTrue(User.objects.filter(username='testuser').exists())
@@ -245,6 +246,37 @@ class CRMViewsTest(TestCase, RecordModelBase):
         self.assertEqual(messages[0].message, "Registro editado com sucesso.")
         self.assertRedirects(response, reverse('crm:home'))
 
+    def test_update_record_views_if_request_user_is_not_authenticated(self):
+        self.record = self.record_maker()
+        response = self.client.post(reverse('crm:update_record',
+                                            kwargs={'pk': self.record_maker().id}),
+                                    form_data_add_record()
+                                    )
 
+        self.record.refresh_from_db()
+        self.assertNotEqual(self.record.first_name, form_data_add_record_edit().get('first_name'))
 
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0].message), "Você deve estar logado para realizar essa ação.")
+        self.assertRedirects(response, reverse('crm:home'))
+
+    def test_update_record_views_if_user_is_authenticated_and_form_is_not_valid(self):
+        self.user = User.objects.create_user(username='testuser', password='203060Pl@')
+        self.client.login(username='testuser', password='203060Pl@')
+        self.record = self.record_maker()
+        invalid_form = {key: '' for key in form_data_add_record()}
+
+        response = self.client.post(
+            reverse(
+                'crm:update_record',
+                kwargs={'pk': self.record_maker().id}),
+            invalid_form
+        )
+
+        self.record.refresh_from_db()
+        self.assertFalse(Record.objects.filter(email='john@doe.com').exists())
+        self.assertTemplateUsed(response, 'website/pages/update_record.html')
+        self.assertIsInstance(response.context['form'], AddRecordForm)
+        self.assertTrue(response.context['form'].errors)
 
