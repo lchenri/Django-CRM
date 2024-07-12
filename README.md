@@ -9,9 +9,10 @@ O **Django-CRM** é um sistema de cadastro de dados de clientes. Ele permite que
 - Criação, edição e visualização das informações dos clientes.
 - Controle de acesso com autenticação.
 
-## **Pré-requisitos**
+## **Implementado com:**
 
-- Python 3.x
-- Django
-- PostgreSQL
+- [Python 3.12](https://www.python.org/)
+- [Django](https://www.djangoproject.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- Testes unitários cobertos com o [coverage](https://coverage.readthedocs.io/en/7.6.0/)
 - Outras dependências listadas em **`requirements.txt`**
